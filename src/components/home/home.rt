@@ -1,3 +1,19 @@
-<rt-require dependency="./home.scss" as="homeStyle"></rt-require>
+<rt-import name="default" as="homeStyle" from="./home.scss"/>
+<rt-import name="default" as="authStore" from="../../stores/authStore"/>
+<rt-import name="*" as="authAPI" from="../../api/authAPI"/>
 
-<div class="home">Hello, Webpack-On-heroku!</div>
+<div class="home">
+  <div rt-if="authStore.uid">
+    <div>
+      {authStore.uid}
+    </div>
+    <button type="button" name="button" onClick="{authAPI.logout}">Logout</button>
+  </div>
+  <div rt-if="!authStore.uid">
+    <div>
+      No UID
+    </div>
+    <button type="button" name="button" onClick="{authAPI.loginWithGoogle}">Login</button>
+  </div>
+
+</div>
