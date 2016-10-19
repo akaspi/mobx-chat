@@ -1,0 +1,12 @@
+<rt-import name="default" as="chatStyle" from="./chat.scss"/>
+<rt-import name="default" as="chatStore" from="../../stores/chatStore"/>
+
+<div class="chat">
+  <ul>
+    <li rt-repeat="message in chatStore.messages" class="message" key="{message.time}">
+      <img src="{message.photoURL}" />
+      <span>{message.text}</span>
+    </li>
+  </ul>
+  <input type="text" onKeyPress="{this.onKeyPress}">
+</div>

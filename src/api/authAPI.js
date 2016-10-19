@@ -22,7 +22,10 @@ export function loginWithGoogle() {
   return new Promise((resolve, reject) => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function(result) {
-      resolve(result.user.uid);
+      resolve({
+        uid: result.user.uid,
+        photoURL: result.user.photoURL
+      });
     }).catch(reject);
   })
 }

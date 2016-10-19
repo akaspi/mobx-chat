@@ -3,13 +3,21 @@ import { loginWithGoogle, logout } from '../api/authAPI';
 
 class AuthStore {
     @observable uid;
+    @observable photoURL;
 
     @action login = () => {
-      loginWithGoogle().then(uid => this.uid = uid);
+        loginWithGoogle()
+            .then(user => {
+                this.uid = user.uid;
+                this.photoURL = user.photoURL;
+            });
     };
 
     @action signOut = () => {
-      logout().then(() => this.uid = null);
+      logout().then(() => {
+          this.uid = null;
+          this.photoURL = user.photoURL;
+      });
     };
 }
 

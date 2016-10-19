@@ -1,16 +1,9 @@
 <rt-import name="default" as="homeStyle" from="./home.scss"/>
 <rt-import name="default" as="authStore" from="../../stores/authStore"/>
-<rt-import name="default" as="chatStore" from="../../stores/chatStore"/>
+<rt-import name="default" as="Chat" from="../chat/chat"/>
 
 <div class="home">
-  <div rt-if="authStore.uid">
-    <div>
-      <ul>
-        <li rt-repeat="message in chatStore.messages" key="{message.time}">{message.uid}: {message.text}</li>
-      </ul>
-      <input type="text" onKeyPress="{this.onKeyPress}">
-    </div>
-  </div>
+  <Chat rt-if="authStore.uid"/>
   <div rt-if="!authStore.uid">
     <button onClick="{authStore.login}">Login</button>
   </div>
