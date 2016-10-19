@@ -20,7 +20,7 @@ export function sendMessage(uid, text) {
   const chatRef = firebase.database().ref('chat');
   const messageRef = chatRef.push();
 
-  messageRef.set({ text, time: Date.now() });
+  messageRef.set({ uid, text, time: Date.now() });
 }
 
 export function listenToMessages(onMessage) {
