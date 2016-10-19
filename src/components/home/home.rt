@@ -1,19 +1,11 @@
 <rt-import name="default" as="homeStyle" from="./home.scss"/>
-<rt-import name="default" as="authStore" from="../../stores/authStore"/>
-<rt-import name="*" as="authAPI" from="../../api/authAPI"/>
+<rt-import name="default" as="chatStore" from="../../stores/chatStore"/>
 
 <div class="home">
-  <div rt-if="authStore.uid">
-    <div>
-      {authStore.uid}
-    </div>
-    <button type="button" name="button" onClick="{authAPI.logout}">Logout</button>
+  <div>
+    <ul>
+      <li rt-repeat="message in chatStore.messages" key="{message.time}">{message.text}</li>
+    </ul>
+    <input type="text" onKeyPress="{this.onKeyPress}">
   </div>
-  <div rt-if="!authStore.uid">
-    <div>
-      No UID
-    </div>
-    <button type="button" name="button" onClick="{authAPI.loginWithGoogle}">Login</button>
-  </div>
-
 </div>

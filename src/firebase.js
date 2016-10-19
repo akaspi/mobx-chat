@@ -9,5 +9,5 @@ const config = {
 };
 
 firebase.initializeApp(config);
-
+window.db = firebase.database();
 export default firebase;

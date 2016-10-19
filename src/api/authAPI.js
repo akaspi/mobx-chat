@@ -1,32 +1,32 @@
 import firebase from '../firebase';
-import authStore from '../stores/authStore';
 
-export function fetchLoggedInUser() {
-  firebase.auth().getRedirectResult()
-    .then(result => {
-      if (result.user) {
-        authStore.setMe(result.user.uid);
-      } else {
-        const onAuthStateChange = user => {
-          firebase.auth().removeAuthTokenListener(onAuthStateChange);
-          authStore.setMe(user.uid);
-        };
-        firebase.auth().onAuthStateChanged(onAuthStateChange);
-      }
-    })
-    .catch(reject);
-}
+// export function fetchLoggedInUser() {
+//   return new Promise((resolve, reject) => {
+//     firebase.auth().getRedirectResult()
+//       .then(result => {
+//         if (result.user) {
+//           resolve(result.user.uid);
+//         } else {
+//           const onAuthStateChange = user => {
+//             firebase.auth().removeAuthTokenListener(onAuthStateChange);
+//             resolve(user && user.uid);
+//           };
+//           firebase.auth().onAuthStateChanged(onAuthStateChange);
+//         }
+//       })
+//       .catch(reject);
+//   })
+// }
 
 export function loginWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider).then(function(result) {
-    authStore.setMe(result.user.uid);
-  }).catch(function(error) {
-    console.log(error);
-  });
+  return new Promise((resolve, reject) => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      resolve(result.user.uid);
+    }).catch(reject);
+  })
 }
 
 export function logout() {
-  firebase.auth().signOut()
-    .then(() => authStore.setMe(null));
+  return firebase.auth().signOut();    
 }
