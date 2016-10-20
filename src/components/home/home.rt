@@ -2,9 +2,10 @@
 <rt-import name="default" as="store" from="../../stores/store"/>
 <rt-import name="default" as="Chat" from="../chat/chat"/>
 
-<div class="home">
-  <Chat rt-if="store.auth.uid"/>
-  <div rt-if="!store.auth.uid">
+<div class="home" rt-scope="store.auth.isLoggedIn as isLoggedIn">
+  <Chat rt-if="isLoggedIn"/>
+  <button rt-if="isLoggedIn" onClick="{store.auth.logout}">Logout</button>
+  <div rt-if="!isLoggedIn">
     <button onClick="{store.auth.login}">Login</button>
   </div>
 </div>

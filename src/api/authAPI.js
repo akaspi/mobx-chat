@@ -1,4 +1,5 @@
 import firebase from '../firebase';
+import { stopListeningToMessages } from './chatAPI';
 
 // export function fetchLoggedInUser() {
 //   return new Promise((resolve, reject) => {
@@ -24,7 +25,7 @@ const getChatUser = (user) => {
     photoURL: user.photoURL,
     userName: user.displayName
   }
-}
+};
 
 export function loginWithGoogle() {
   return new Promise((resolve, reject) => {
@@ -43,4 +44,10 @@ export function getLoggedInUser() {
     };
     firebase.auth().onAuthStateChanged(onAuthStateChange);
   });
+}
+
+export function logout() {
+  stopListeningToMessages();
+
+  return firebase.auth().signOut();
 }

@@ -15,6 +15,7 @@ import firebase from '../firebase';
 //   chatRef.remove();
 // }
 
+let onMessageReceived;
 
 export function sendMessage(uid, userName, photoURL, text) {
   const chatRef = firebase.database().ref('chat');
@@ -26,5 +27,13 @@ export function sendMessage(uid, userName, photoURL, text) {
 export function listenToMessages(onMessage) {
   const chatRef = firebase.database().ref('chat');
 
-  chatRef.on('child_added', snapshot => onMessage(snapshot.val()));
+  onMessageReceived = snapshot => onMessage(snapshot.val());
+
+  chatRef.on('child_added', onMessageReceived);
+}
+
+export function stopListeningToMessages() {
+  const chatRef = firebase.database().ref('chat');
+
+  chatRef.off('child_added', onMessageReceived);
 }

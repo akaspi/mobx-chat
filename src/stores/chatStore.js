@@ -1,5 +1,5 @@
-import { observable, action, autorun } from 'mobx';
-import { sendMessage, listenToMessages } from '../api/chatAPI';
+import { observable, action } from 'mobx';
+import { listenToMessages } from '../api/chatAPI';
 
 class Message {
     @observable text;

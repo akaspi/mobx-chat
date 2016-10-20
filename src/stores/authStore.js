@@ -1,5 +1,5 @@
-import { observable, action } from 'mobx';
-import { loginWithGoogle, getLoggedInUser } from '../api/authAPI';
+import { observable, computed, action } from 'mobx';
+import { loginWithGoogle, getLoggedInUser, logout } from '../api/authAPI';
 
 class AuthStore {
     @observable uid;
@@ -7,23 +7,32 @@ class AuthStore {
     @observable userName;
 
     constructor () {
-        getLoggedInUser().then(this.onLogin)
+        getLoggedInUser().then(this.onUserChanged)
     }
 
-    @action onLogin = (user) => {
-        if (!user) {
-            return;
-        }
+    @computed get isLoggedIn() {
+        return !!this.uid;
+    }
 
-        this.uid = user.uid;
-        this.photoURL = user.photoURL;
-        this.userName = user.userName;
+    @action onUserChanged = (user) => {
+        if (user) {
+            this.uid = user.uid;
+            this.photoURL = user.photoURL;
+            this.userName = user.userName;
+        } else {
+            this.uid = null;
+            this.photoURL = null;
+            this.userName = null;
+        }
     };
 
     login = () => {
-        loginWithGoogle()
-            .then(this.onLogin);
+        loginWithGoogle().then(this.onUserChanged);
     };
+
+    logout = () => {
+        logout().then(this.onUserChanged)
+    }
 }
 
 const authStore = new AuthStore();
