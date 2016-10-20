@@ -1,23 +1,28 @@
 import { observable, action } from 'mobx';
-import { loginWithGoogle, logout } from '../api/authAPI';
+import { loginWithGoogle, getLoggedInUser } from '../api/authAPI';
 
 class AuthStore {
     @observable uid;
     @observable photoURL;
+    @observable userName;
 
-    @action login = () => {
-        loginWithGoogle()
-            .then(user => {
-                this.uid = user.uid;
-                this.photoURL = user.photoURL;
-            });
+    constructor () {
+        getLoggedInUser().then(this.onLogin)
+    }
+
+    @action onLogin = (user) => {
+        if (!user) {
+            return;
+        }
+
+        this.uid = user.uid;
+        this.photoURL = user.photoURL;
+        this.userName = user.userName;
     };
 
-    @action signOut = () => {
-      logout().then(() => {
-          this.uid = null;
-          this.photoURL = user.photoURL;
-      });
+    login = () => {
+        loginWithGoogle()
+            .then(this.onLogin);
     };
 }
 

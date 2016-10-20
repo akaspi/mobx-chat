@@ -1,10 +1,11 @@
 <rt-import name="default" as="chatStyle" from="./chat.scss"/>
-<rt-import name="default" as="chatStore" from="../../stores/chatStore"/>
+<rt-import name="default" as="store" from="../../stores/store"/>
 
 <div class="chat">
   <ul>
-    <li rt-repeat="message in chatStore.messages" class="message" key="{message.time}">
+    <li rt-repeat="message in store.chat.messages" class="message" key="{message.time}">
       <img src="{message.photoURL}" />
+      <span class="name">{message.userName}</span>
       <span>{message.text}</span>
     </li>
   </ul>

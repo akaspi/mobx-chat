@@ -18,18 +18,29 @@ import firebase from '../firebase';
 //   })
 // }
 
+const getChatUser = (user) => {
+  return {
+    uid: user.uid,
+    photoURL: user.photoURL,
+    userName: user.displayName
+  }
+}
+
 export function loginWithGoogle() {
   return new Promise((resolve, reject) => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function(result) {
-      resolve({
-        uid: result.user.uid,
-        photoURL: result.user.photoURL
-      });
+      resolve(getChatUser(result.user));
     }).catch(reject);
   })
 }
 
-export function logout() {
-  return firebase.auth().signOut();    
+export function getLoggedInUser() {
+  return new Promise((resolve, reject) => {
+    const onAuthStateChange = user => {
+      firebase.auth().removeAuthTokenListener(onAuthStateChange);
+      resolve(getChatUser(user));
+    };
+    firebase.auth().onAuthStateChanged(onAuthStateChange);
+  });
 }

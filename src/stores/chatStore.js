@@ -4,12 +4,14 @@ import { sendMessage, listenToMessages } from '../api/chatAPI';
 class Message {
     @observable text;
     @observable uid;
+    @observable userName;
     @observable photoURL;
     @observable time;
 
-    constructor(text, uid, photoURL, time) {
+    constructor(text, uid, userName, photoURL, time) {
         this.text = text;
         this.uid = uid;
+        this.userName = userName;
         this.photoURL = photoURL;
         this.time = time;
     }
@@ -24,12 +26,12 @@ class ChatStore {
         listenToMessages(this.onMessage);
     }
 
-    @action onMessage = ({ text, photoURL, uid, time }) => {
-        this.messages.push(new Message(text, uid, photoURL, time));
+    @action onMessage = ({ text, userName, photoURL, uid, time }) => {
+        this.messages.push(new Message(text, uid, userName, photoURL, time));
     };
 
-    @action sendMessage = (uid, photoUrl, text) => {
-        sendMessage(uid, photoUrl, text);
+    @action sendMessage = (uid, userName, photoUrl, text) => {
+        sendMessage(uid, userName, photoUrl, text);
     }
 }
 

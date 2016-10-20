@@ -1,10 +1,10 @@
 <rt-import name="default" as="homeStyle" from="./home.scss"/>
-<rt-import name="default" as="authStore" from="../../stores/authStore"/>
+<rt-import name="default" as="store" from="../../stores/store"/>
 <rt-import name="default" as="Chat" from="../chat/chat"/>
 
 <div class="home">
-  <Chat rt-if="authStore.uid"/>
-  <div rt-if="!authStore.uid">
-    <button onClick="{authStore.login}">Login</button>
+  <Chat rt-if="store.auth.uid"/>
+  <div rt-if="!store.auth.uid">
+    <button onClick="{store.auth.login}">Login</button>
   </div>
 </div>

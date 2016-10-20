@@ -16,11 +16,11 @@ import firebase from '../firebase';
 // }
 
 
-export function sendMessage(uid, photoURL, text) {
+export function sendMessage(uid, userName, photoURL, text) {
   const chatRef = firebase.database().ref('chat');
   const messageRef = chatRef.push();
 
-  messageRef.set({ uid, photoURL, text, time: Date.now() });
+  messageRef.set({ uid, userName, photoURL, text, time: Date.now() });
 }
 
 export function listenToMessages(onMessage) {
